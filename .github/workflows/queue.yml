@@ -2,7 +2,7 @@ name: Energylandia Queue Scraper
 
 on:
   schedule:
-    - cron: '*/5 1-23 * * *'
+    - cron: '*/1 * * * *'
 
 permissions:
   contents: write
