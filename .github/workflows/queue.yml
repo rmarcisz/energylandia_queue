@@ -1,7 +1,8 @@
+name: Energylandia Queue Scraper
+
 on:
   schedule:
-    - cron: '*/1 7-18 * * *'
-  workflow_dispatch:
+    - cron: '*/5 1-23 * * *'
 
 permissions:
   contents: write
@@ -25,10 +26,14 @@ jobs:
       - name: Run queue script
         run: python queue_script.py
 
-      - name: Commit CSV
+      - name: Pull latest changes to avoid conflicts
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase
+
+      - name: Commit CSV
+        run: |
           git add energylandia_queues.csv
-          git commit -m "Update queue data [skip ci]" || echo "No changes"
+          git commit -m "Update queue data [skip ci]" || echo "No changes to commit"
           git push
